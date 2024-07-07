@@ -1,0 +1,43 @@
+jamesdanielmarrsritchey: Using PHP, write a function which converts line-endings between Windows and Linux style. The user specifies which to use, and then all line endings in a string a converted to that.
+
+GitHub Copilot: ```php
+function convertLineEndings($string, $toType) {
+    // Normalize line endings to Unix style
+    $normalizedString = str_replace(["\r\n", "\r"], "\n", $string);
+
+    // Convert line endings based on the target type
+    if ($toType === 'Windows') {
+        // Convert to Windows (CRLF)
+        return str_replace("\n", "\r\n", $normalizedString);
+    } elseif ($toType === 'Linux') {
+        // Already converted to Unix/Linux (LF), return normalized string
+        return $normalizedString;
+    } else {
+        // Invalid type, return original string without changes
+        return $string;
+    }
+}
+```
+
+jamesdanielmarrsritchey: In PHP, how can I check which type of line endings are currently bieng used?
+
+GitHub Copilot: ```php
+function detectLineEndingType($string) {
+    // Check for Windows line endings (CRLF)
+    if (strpos($string, "\r\n") !== false) {
+        return 'Windows';
+    }
+    // Check for Mac (old) line endings (CR)
+    elseif (strpos($string, "\r") !== false) {
+        return 'Mac';
+    }
+    // Check for Unix/Linux line endings (LF)
+    elseif (strpos($string, "\n") !== false) {
+        return 'Linux';
+    }
+    // No line endings found
+    else {
+        return 'Unknown';
+    }
+}
+```
